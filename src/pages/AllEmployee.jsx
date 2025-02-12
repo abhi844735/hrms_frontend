@@ -13,7 +13,15 @@ const AllEmployee = () => {
   async function getEmployeeData() {
     setLoading(true);
     try {
-      const response = await axios.get(`${window.apiURL}/employees/getAllEmployeesDetail?name=${name}`, { withCredentials: true });
+      const response = await axios.get(`${window.apiURL}/employees/getAllEmployeesDetail?name=${name}`, 
+        {
+          //  withCredentials: true 
+          headers:{
+            Authorization:`${localStorage.getItem("token")}`
+          }
+
+        }
+      );
       // console.log(response);
       setEmployeeData(response);
       setLoading(false)
@@ -41,7 +49,10 @@ const AllEmployee = () => {
         setLoading(true)
         try {
           const response = await axios.delete(`${window.apiURL}/employees/delete/${id}`, {
-            withCredentials: true, // Important for cookies
+            // withCredentials: true, // Important for cookies
+            headers:{
+              Authorization:`${localStorage.getItem("token")}`
+            }
           });
           toast.success("Employee Deleted Successfully");
           getEmployeeData();

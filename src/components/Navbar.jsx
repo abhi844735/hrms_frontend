@@ -12,12 +12,13 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.get(`${window.apiURL}/auth/logout`, {
-        withCredentials: true, // Important for cookies
-      });
+      // await axios.get(`${window.apiURL}/auth/logout`, {
+      //   // withCredentials: true, // Important for cookies
+      // });
 
       setIsLoggedin(false);
       localStorage.removeItem("user_data");
+      localStorage.removeItem("token");
 
       navigation("/login");
       toast.success("Logout Successfully");

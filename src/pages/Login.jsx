@@ -21,7 +21,6 @@ function Login() {
           email,
           password,
         },
-        {withCredentials: true}
       );
       
       if (response?.status == 200) {
@@ -29,6 +28,7 @@ function Login() {
           "user_data",
           JSON.stringify(response?.data?.user)
         );
+        localStorage.setItem("token",response?.data?.user?.token);
         setIsLoggedin(true);
         navigation("/");
         toast.success(response?.data.message);

@@ -22,8 +22,13 @@ const HrLeaveSection = () => {
 
     try {
       const response = await axios.get(`${window.apiURL}/leaves/allEmployeeLeaves`, {
-        withCredentials: true,
+        // withCredentials: true,
+        headers:{
+          Authorization:`${localStorage.getItem("token")
+          }`
+        }
       });
+      console.log(response);
       setLeaves(response.data);
     } catch (error) {
       toast.error("Failed to fetch leave requests");
@@ -63,9 +68,15 @@ const HrLeaveSection = () => {
         try {
           await axios.put(
             `${window.apiURL}/leaves/${leaveId}/status`,
-            { status },
-            { withCredentials: true }
-          );
+            { status }, // Request body
+            {
+                headers: {
+                    Authorization: `${localStorage.getItem("token")}`
+                }
+                // withCredentials: true // Uncomment if backend requires authentication cookies
+            }
+        );
+        
 
           Swal.fire("Success!", `Leave request ${status.toLowerCase()} successfully!`, "success");
           fetchAllLeaves();
@@ -104,7 +115,7 @@ const HrLeaveSection = () => {
               ) : (
                 leaves.map((leave) => (
                   <tr key={leave._id} className="border-b text-center">
-                    <td className="border px-4 py-2 font-semibold">{leave.employee.name}</td>
+                    <td className="border px-4 py-2 font-semibold">{leave.employee?.name}</td>
                     <td className="border px-4 py-2">{leave.leaveType}</td>
                     <td className="border px-4 py-2">{leave.leaveApplyDates.join(", ")}</td>
                     <td className="border px-4 py-2">{leave.reason}</td>

@@ -30,8 +30,10 @@ function Signup() {
 
     try {
       const res = await axios.post(`${window.apiURL}/auth/register`, formData, {
-        headers: { "Content-Type": "application/json" }, 
-        withCredentials: true
+        headers: { "Content-Type": "application/json",
+          Authorization:`${localStorage.getItem("token")}`
+         }, 
+        // withCredentials: true
         
       });
 

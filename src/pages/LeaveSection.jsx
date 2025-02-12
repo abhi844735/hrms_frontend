@@ -26,7 +26,14 @@ const LeaveSection = () => {
     });
 
     try {
-      const response = await axios.get(`${window.apiURL}/leaves/loggedInUserLeaves`, { withCredentials: true });
+      const response = await axios.get(`${window.apiURL}/leaves/loggedInUserLeaves`,
+         { 
+          // withCredentials: true
+          headers:{
+            Authorization:`${localStorage.getItem("token")}`
+          }
+         }
+        );
       setLeaves(response.data);
     } catch (error) {
       toast.error("Failed to fetch leaves");
@@ -89,7 +96,13 @@ const LeaveSection = () => {
               leaveApplyDates: leaveDates.map((date) => date.toISOString().split("T")[0]),
               reason,
             },
-            { withCredentials: true }
+            { 
+              // withCredentials: true 
+              headers:{
+                Authorization:`${localStorage.getItem("token")}`
+              }
+
+            }
           );
 
           Swal.fire("Success!", "Your leave has been applied successfully.", "success");
@@ -128,9 +141,17 @@ const LeaveSection = () => {
         });
 
         try {
-          await axios.delete(`${window.apiURL}/leaves/${leaveId}/cancel`, { withCredentials: true });
+          await axios.delete(`${window.apiURL}/leaves/${leaveId}/cancel`, 
+            { 
+              // withCredentials: true
+              headers:{
+                Authorization:`${localStorage.getItem("token")}`
+              }
+             }
+          );
 
-          Swal.fire("Success!", "Leave cancelled successfully.", "success");
+          // demo code
+          Swal.fire("Success!", "Leave cancelled successfully.", "successs");
           fetchLeaves();
         } catch (error) {
           Swal.fire("Error!", "There was an issue canceling the leave.", "error");
